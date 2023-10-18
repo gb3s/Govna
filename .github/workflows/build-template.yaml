@@ -11,11 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Package Helm Chart
-        uses: helm/chart-releaser-action@v1.2.0
-        with:
-          chart_path: ./govna
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          release_name: govna
-          chart_version: 0.1.0
-          chart_repo:
+      - run: |
+          helm registry login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} registry-1.docker.io  
