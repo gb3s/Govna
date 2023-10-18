@@ -20,6 +20,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install helm -v 3.12.3 --yes
 
+          helm version
+
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | helm registry login registry-1.docker.io -u ${{ vars.DOCKER_HUB_USERNAME }} --password-stdin  
           helm package govna/
           helm push govna-0.1.0.tgz oci://registry-1.docker.io/${{ vars.DOCKER_HUB_USERNAME }}/govna
