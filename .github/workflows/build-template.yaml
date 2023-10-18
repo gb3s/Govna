@@ -11,7 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+        name: Checkout
+
       - run: |
-         echo "${{ secrets.DOCKER_HUB_PASSWORD }}" helm registry login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin  registry-1.docker.io  
+         echo "${{ secrets.DOCKER_HUB_PASSWORD }}" helm registry login -u ${{ vars.DOCKER_HUB_USERNAME }} --password-stdin  registry-1.docker.io  
          helm package govna/
-         helm push govna-0.1.0.tgz oci://registry-1.docker.io/${{ secrets.DOCKER_HUB_USERNAME }}
+         helm push govna-0.1.0.tgz oci://registry-1.docker.io/${{ vars.DOCKER_HUB_USERNAME }}
+        name: Package and Push Helm Chart
