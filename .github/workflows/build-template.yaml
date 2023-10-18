@@ -12,4 +12,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: |
-          helm registry login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} registry-1.docker.io  
+         echo "${{ secrets.DOCKER_HUB_PASSWORD }}" helm registry login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin  registry-1.docker.io  
