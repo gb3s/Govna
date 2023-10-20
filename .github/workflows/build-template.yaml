@@ -29,7 +29,7 @@ jobs:
 
       - run: |
           echo "${{ secrets.DOCKER_HUB_TOKEN }}" | helm registry login registry-1.docker.io -u ${{ vars.DOCKER_HUB_USERNAME }} --password-stdin  
-          helm package govna/
+          helm package govna/ --version $version
           helm push govna-$version.tgz oci://registry-1.docker.io/${{ vars.DOCKER_HUB_USERNAME }}
         name: Package and Push Helm Chart
         env:
