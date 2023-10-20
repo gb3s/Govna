@@ -23,7 +23,7 @@ jobs:
 
       - name: Set Variables
         run: |
-          echo "$VERSION"
+          echo "${{ steps.helm-version.outputs.major }}"
 
       - run: |
           echo "${{ secrets.DOCKER_HUB_TOKEN }}" | helm registry login registry-1.docker.io -u ${{ vars.DOCKER_HUB_USERNAME }} --password-stdin  
