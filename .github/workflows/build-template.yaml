@@ -46,6 +46,8 @@ jobs:
           major_pattern: "(MAJOR)"
           minor_pattern: "(MINOR)"
           change_path: "govna"
+          bump_each_commit: true
+          bump_each_commit_patch_pattern: "(PATCH)"
 
       - run: |
           echo "${{ secrets.DOCKER_HUB_TOKEN }}" | helm registry login registry-1.docker.io -u ${{ vars.DOCKER_HUB_USERNAME }} --password-stdin  
