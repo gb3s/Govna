@@ -7,7 +7,7 @@ on:
 
 jobs:
   helm_package_pre_release:
-    name: Package Helm Chart
+    name: Package Release Candidate Helm Chart
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/main'
     steps:
@@ -32,7 +32,7 @@ jobs:
           version: ${{ steps.helm-version.outputs.version }}
 
   helm_package_release:
-    name: Package Helm Chart
+    name: Package Release Helm Chart
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
