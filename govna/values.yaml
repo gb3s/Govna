@@ -81,3 +81,5 @@ tolerations: []
 
 affinity: {}
 
+
+# Path: govna/templates/deployment.yaml
