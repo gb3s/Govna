@@ -80,3 +80,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+# Configuration for the ingress resource that fronts the service.
