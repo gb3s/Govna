@@ -6,9 +6,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  helm_package:
-    name: Package Helm Chart
+  helm_package_pre_release:
+    name: Package Release Candidate Helm Chart
     runs-on: ubuntu-latest
+    if: github.ref != 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v1
+        name: Checkout
+
+      - name: Helm Version Pre-Release
+        id: helm-version
+        uses: paulhatch/semantic-version@v5.3.0
+        with:
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          change_path: "govna"
+          version_format: "${major}.${minor}.${patch}-rc.${increment}"
+
+      - run: |
+          echo "${{ secrets.DOCKER_HUB_TOKEN }}" | helm registry login registry-1.docker.io -u ${{ vars.DOCKER_HUB_USERNAME }} --password-stdin  
+          helm package govna/ --version $version
+          helm push govna-$version.tgz oci://registry-1.docker.io/${{ vars.DOCKER_HUB_USERNAME }}
+        name: Package and Push Helm Chart
+        env:
+          version: ${{ steps.helm-version.outputs.version }}
+
+  helm_package_release:
+    name: Package Release Helm Chart
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v1
         name: Checkout
@@ -20,6 +46,8 @@ jobs:
           major_pattern: "(MAJOR)"
           minor_pattern: "(MINOR)"
           change_path: "govna"
+          bump_each_commit: true
+          bump_each_commit_patch_pattern: "(PATCH)"
 
       - run: |
           echo "${{ secrets.DOCKER_HUB_TOKEN }}" | helm registry login registry-1.docker.io -u ${{ vars.DOCKER_HUB_USERNAME }} --password-stdin  
