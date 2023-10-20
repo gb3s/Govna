@@ -13,6 +13,18 @@ jobs:
       - uses: actions/checkout@v1
         name: Checkout
 
+      - name: Helm Version
+        id: helm-version
+        uses: paulhatch/semantic-version@v5.2.2
+        with:
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          change_path: "govna"
+
+      - name: Set Variables
+        run: |
+          echo "$VERSION"
+
       - run: |
           echo "${{ secrets.DOCKER_HUB_TOKEN }}" | helm registry login registry-1.docker.io -u ${{ vars.DOCKER_HUB_USERNAME }} --password-stdin  
           helm package govna/
